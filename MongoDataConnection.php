@@ -99,6 +99,10 @@ class MongoDataConnection implements DataConnection {
     return $data;
   }
 
+  public function update($table, $criteria, $data, $options = array()) {
+    return $this->db->selectCollection($table)->update($criteria, $data, $options);
+  }
+
   function save($table, $data, $field, $value) {
     $this->db->selectCollection($table)->update(array($field => $value), $data);
   }

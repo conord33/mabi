@@ -476,6 +476,15 @@ class Model {
   /**
    * todo: docs
    */
+  public function update($criteria, $data, $options = array()) {
+    $dataConnection = $this->app->getDataConnection($this->connection);
+    $success = $dataConnection->update($this->table, $criteria, $data, $options);
+    return $success;
+  }
+
+  /**
+   * todo: docs
+   */
   public function save() {
     $dataConnection = $this->app->getDataConnection($this->connection);
     $propArray = $this->getPropertyArray();

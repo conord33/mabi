@@ -13,6 +13,8 @@ interface DataConnection {
 
   function insert($table, $data);
 
+  function update($table, $criteria, $data, $options);
+
   function save($table, $data, $field, $value);
 
   function findAll($table);
