@@ -49,8 +49,9 @@ class GeneratedRESTModelControllerLoader extends ControllerLoader {
 
         // Load the middleware that's specified in the Model
         $middlewares = ReflectionHelper::getDocDirective($rClass->getDocComment(), 'middleware');
-        foreach ($middlewares as $middlewareClass) {
-          $controller->addMiddlewareByClass($middlewareClass);
+        foreach ($middlewares as $middleware) {
+          $middlewareClassAndFlags = ReflectionHelper::getMiddleWareClassAndFlags($middleware);
+          $controller->addMiddlewareByClass($middlewareClassAndFlags[0], $middlewareClassAndFlags[1]);
         }
         $this->controllers[] = $controller;
       }

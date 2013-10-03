@@ -16,6 +16,11 @@ abstract class Middleware {
   protected $next;
 
   /**
+   * @var string[]
+   */
+  protected $flags = array();
+
+  /**
    * todo: docs
    *
    * @param  \MABI\Controller $controller
@@ -30,6 +35,10 @@ abstract class Middleware {
 
   public function getApp() {
     return $this->getController()->getApp();
+  }
+
+  public function addFlag($flag) {
+    $this->flags[] = $flag;
   }
 
   /**

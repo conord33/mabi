@@ -22,6 +22,22 @@ class ReflectionHelper {
     return $matches[1];
   }
 
+  public static function getMiddleWareClassAndFlags($middleware) {
+    $middlewareClassAndFlags = explode('(', $middleware);
+    $middlewareClassAndFlags[0] = trim($middlewareClassAndFlags[0]);
+    $middlewareClassAndFlags[1] = trim($middlewareClassAndFlags[1], " \t\n\r\0\x0B)");
+    $middlewareClassAndFlags[1] = explode(',', $middlewareClassAndFlags[1]);
+    if (empty($middlewareClassAndFlags[1][0])) { $middlewareClassAndFlags[1] = array(); }
+    else {
+      $flags = array();
+      foreach($middlewareClassAndFlags[1] as $flag) {
+        $flags[] = trim($flag);
+      }
+      $middlewareClassAndFlags[1] = $flags;
+    }
+    return $middlewareClassAndFlags;
+  }
+
   public static function getDocText($docComments) {
     // Doc comments include things like '   /** ' and '    * ' before the actual text. This function
     // cleans all of that up.

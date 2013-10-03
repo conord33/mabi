@@ -88,7 +88,7 @@ class Controller {
     }
   }
 
-  public function addMiddlewareByClass($middlewareClass) {
+  public function addMiddlewareByClass($middlewareClass, $flags = array()) {
     $middlewareFile = ReflectionHelper::stripClassName($middlewareClass) . '.php';
     // Finds the file to include for this middleware using the app's middleware directory listing
     foreach ($this->extension->getMiddlewareDirectories() as $middlewareDirectory) {
@@ -102,6 +102,9 @@ class Controller {
      * @var $middleware \MABI\Middleware
      */
     $middleware = new $middlewareClass();
+    foreach($flags as $flag) {
+      $middleware->addFlag($flag);
+    }
     $this->addMiddleware($middleware);
   }
 
