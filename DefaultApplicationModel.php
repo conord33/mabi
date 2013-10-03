@@ -19,4 +19,9 @@ class DefaultApplicationModel extends Model {
    * @var string
    */
   public $sharedSecret;
+
+  /**
+   * @var string
+   */
+  public $applicationType;
 }

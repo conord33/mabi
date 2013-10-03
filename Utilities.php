@@ -25,10 +25,11 @@ class ReflectionHelper {
   public static function getMiddleWareClassAndFlags($middleware) {
     $middlewareClassAndFlags = explode('(', $middleware);
     $middlewareClassAndFlags[0] = trim($middlewareClassAndFlags[0]);
-    $middlewareClassAndFlags[1] = trim($middlewareClassAndFlags[1], " \t\n\r\0\x0B)");
-    $middlewareClassAndFlags[1] = explode(',', $middlewareClassAndFlags[1]);
-    if (empty($middlewareClassAndFlags[1][0])) { $middlewareClassAndFlags[1] = array(); }
+    if (empty($middlewareClassAndFlags[1])) { $middlewareClassAndFlags[1] = array(); }
     else {
+      $middlewareClassAndFlags[1] = trim($middlewareClassAndFlags[1], " \t\n\r\0\x0B)");
+      $middlewareClassAndFlags[1] = explode(',', $middlewareClassAndFlags[1]);
+
       $flags = array();
       foreach($middlewareClassAndFlags[1] as $flag) {
         $flags[] = trim($flag);

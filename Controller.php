@@ -79,8 +79,9 @@ class Controller {
 
     // Load middlewares from @middleware directive
     $middlewares = ReflectionHelper::getDocDirective($rClass->getDocComment(), 'middleware');
-    foreach ($middlewares as $middlewareClass) {
-      $this->addMiddlewareByClass($middlewareClass);
+    foreach ($middlewares as $middleware) {
+      $middlewareClassAndFlags = ReflectionHelper::getMiddleWareClassAndFlags($middleware);
+      $this->addMiddlewareByClass($middlewareClassAndFlags[0], $middlewareClassAndFlags[1]);
     }
 
     if (empty($this->documentationName)) {
