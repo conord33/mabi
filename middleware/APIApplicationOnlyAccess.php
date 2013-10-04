@@ -8,10 +8,19 @@ class APIApplicationOnlyAccess extends \MABI\Middleware {
 
 
   protected function passwordCallable() {
+    $callable = $this->getRouteCallable();
+    $method = $callable[1];
+
     $accessible = false;
-    if (in_array('MABI\\Identity\\UserController', class_parents($this->getController()))) {
-      var_dump($this->getRouteCallable()[1]);
-      die();
+    // if downstream from usercontroller check if endpoint is putresource
+    if (in_array('MABI\\Identity\\UserController', class_parents($this->getController()))
+        && $method == '_restPutResource') {
+      $accessible = true;
+    }
+    // if downstream from sessioncontroller check if endpoint is postcollection
+    elseif (in_array('MABI\\Identity\\SessionController', class_parents($this->getController()))
+              && $method == '_restPostCollection') {
+      $accessible = true;
     }
     return $accessible;
   }
@@ -29,8 +38,8 @@ class APIApplicationOnlyAccess extends \MABI\Middleware {
       $this->getApp()->returnError('Not properly authenticated for this route', 401, 1007);
     }
 
-    if (in_array('forgotPassword', $this->flags)) {
-      if (!$this->passwordCallable()) {
+    if ($this->getApp()->getRequest()->apiApplication->applicationType == 'forgotPassword') {
+      if (in_array('forgotPassword', $this->flags) && !$this->passwordCallable()) {
         $this->getApp()->returnError('Not properly authenticated for this route', 401, 1007);
       }
     }
